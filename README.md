@@ -2,6 +2,7 @@
 - LCM<sup>3</sup>DS is a large-scale multi-scenario multi-domain dialogue summarization corpus annotated by ChatGPT.
 - LCM<sup>3</sup>DS corpus is currently available on both [**Google Drive**](https://drive.google.com/file/d/1ZtuLcSJKlWJRNdPL8rlo0a2NCbcmDwq-/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/10oEgcjp2htMSIqz8GWc_kQ?pwd=fy5q).
 - LCM<sup>3</sup>DS corpus is a standardized high-quality corpus that you can use for pretraining on your own model architecture.
+![图片描述](data_stats.png)
 
 # MP4
 We will release the pre-trained MP4 models along with the code by **October 31, 2023**.
