@@ -2,10 +2,38 @@
 - LCM<sup>3</sup>DS is a large-scale multi-scenario multi-domain dialogue summarization corpus annotated by ChatGPT.
 - LCM<sup>3</sup>DS corpus is currently available on both [**Google Drive**](https://drive.google.com/file/d/1ZtuLcSJKlWJRNdPL8rlo0a2NCbcmDwq-/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/10oEgcjp2htMSIqz8GWc_kQ?pwd=fy5q).
 - LCM<sup>3</sup>DS corpus is a standardized high-quality corpus that you can use for pretraining on your own model architecture.
+
 ![图片描述](data_stats.png)
 
+- You can use the following code to extract "*dialogue-summary*" parallel data:
+```python
+with open(os.path.join(dataset_path, dataset_name), 'r') as rf:
+    data = json.load(rf)
+dataset = []
+for sample in data:
+    if 'chatgpt_anno_summ' in sample:
+        dialogue = [i['added_role'] + '<eor>' + i['utterance'] + '<eou>' for i in sample['dialogue']]
+        summary = sample['chatgpt_anno_summ']
+        dataset.append({'dialogue': dialogue, 'summary': summary})
+    if 'role-rep_named-coref_summ' in sample:
+        dialogue = [i['named_coref'] + '<eor>' + i['utterance'] + '<eou>' for i in sample['dialogue']]
+        summary = sample['role-rep_named-coref_summ']
+        dataset.append({'dialogue': dialogue, 'summary': summary})
+    if 'role-rep_cust-serv_summ' in sample:
+        dialogue = [i['cust_serv'] + '<eor>' + i['utterance'] + '<eou>' for i in sample['dialogue']]
+        summary = sample['role-rep_cust-serv_summ']
+        dataset.append({'dialogue': dialogue, 'summary': summary})
+```
+
 # MP4
-We will release the pre-trained MP4 models along with the code by **October 31, 2023**.
+- Our full fine-tuned models, few-shot models, pre-trained models, and initialized model can be obtained from the following:
+
+|Model|Google Drive|Baidu Netdisk|
+|:---:|:---:|:---:|
+| Fine-tuned | [**SAMSum, DIALOGSUM, TWEETSUMM**](https://drive.google.com/file/d/1hoSk-OrfGtcfc4qMfhX6yRFUFWAgLQXX/view?usp=sharing) | [**SAMSum, DIALOGSUM, TWEETSUMM**](https://pan.baidu.com/s/1aR7p4dd6Za9c4f0eB6Kdbg?pwd=tyf3) |
+| Few-shot | [**SAMSum, DIALOGSUM, TWEETSUMM**](https://drive.google.com/file/d/1j7Hy58J5Cf03iBg0mYGsMGggyhK95KBW/view?usp=sharing) | [**SAMSum, DIALOGSUM, TWEETSUMM**](https://pan.baidu.com/s/10GVmjAIg-CWXtdd09s27zQ?pwd=mp2v) |
+| Pre-trained | [**MP4-DAP, MP4-DAP-TOP**](https://drive.google.com/file/d/14o5V-rhoXKefTrtxZVV1ej4rQtlyRF8p/view?usp=sharing) | [**MP4-DAP, MP4-DAP-TOP**](https://pan.baidu.com/s/1rTnK1Gk78uNPy9n-oyXliA?pwd=d6sf) |
+| Initialized | [**Speaker-BART**](https://drive.google.com/file/d/17sXx8fgRhRNWw1K1nr5o4AsBv4kwASnm/view?usp=sharing) | [**Speaker-BART**](https://pan.baidu.com/s/1LAv01Y71jcM8oBAAjm4K2A?pwd=u9d4) |
 
 ## Downstream Datasets
 - Downstream datasets are currently available on both [**Google Drive**](https://drive.google.com/file/d/1riZX1yraagpgLIKf5YexuGXqmIa9O0DL/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/142DGWCutzOSwzYDk9ma-qg?pwd=n8rj).
@@ -25,10 +53,10 @@ We will release the pre-trained MP4 models along with the code by **October 31, 
 | Subsequent | 40.08 | 15.41 | 37.22 |
 
 ## Inference with Our Fine-tuned SOTA Models
-We will release the relevant guideline scripts before **October 31, 2023**.
+- You can obtain all the inference results (i.e., full fine-tune, few-shot and zero-shot) of our models on [**Google Drive**](https://drive.google.com/file/d/1jFSp5uT1vlzcLp3wmN4y9fc19EwTh5Hy/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/1ok74xwzrUEYLwVmSx5IItQ?pwd=mic6).
 
 ## Fine-tuning with Our Pre-trained MP4 Models
-We will release the relevant guideline scripts before **October 31, 2023**.
+- We will release the relevant guideline scripts before **October 31, 2023**.
 
 ## Pre-training with Our Speaker-BART Model
 - Domain-Aware Pre-training (DAP) is used for further understanding multi-scenario multi-domain dialogues, and its downstream tasks are suitable for dialogue-related tasks, not limited to dialogue summarization. The corpus with *20% masking ratio* can be found on [**Google Drive**](https://drive.google.com/file/d/1NrbLvIAh2Y0enIouXOGjsBsFvNDFpGYh/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/1NE1yC-ICo21YJO9k6AXJHg?pwd=mw4c), and the corpus with *40% masking ratio* can be found on [**Google Drive**](https://drive.google.com/file/d/1nxeR0nVjjqmK1u2nZByWqQDVULQpkhpZ/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/1rszc2pIs6ZjBHTtQFq9Qgg?pwd=9a5r).
