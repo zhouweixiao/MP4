@@ -1,4 +1,4 @@
-# LCM<sup>3</sup>DS
+# LCM<sup>3</sup>DS Corpus
 - LCM<sup>3</sup>DS is a large-scale multi-scenario multi-domain dialogue summarization corpus annotated by ChatGPT.
 - LCM<sup>3</sup>DS corpus is currently available on both [**Google Drive**](https://drive.google.com/file/d/1ZtuLcSJKlWJRNdPL8rlo0a2NCbcmDwq-/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/10oEgcjp2htMSIqz8GWc_kQ?pwd=fy5q).
 - LCM<sup>3</sup>DS corpus is a standardized high-quality corpus that you can use for pretraining on your own model architecture.
@@ -25,7 +25,7 @@ for sample in data:
         dataset.append({'dialogue': dialogue, 'summary': summary})
 ```
 
-# MP4
+# MP4 Model Zoo
 - Our full fine-tuned models, few-shot models, pre-trained models, and initialized model can be obtained from the following:
 
 |Model|Google Drive|Baidu Netdisk|
@@ -35,7 +35,7 @@ for sample in data:
 | Pre-trained | [**MP4-DAP, MP4-DAP-TOP**](https://drive.google.com/file/d/14o5V-rhoXKefTrtxZVV1ej4rQtlyRF8p/view?usp=sharing) | [**MP4-DAP, MP4-DAP-TOP**](https://pan.baidu.com/s/1rTnK1Gk78uNPy9n-oyXliA?pwd=d6sf) |
 | Initialized | [**Speaker-BART**](https://drive.google.com/file/d/17sXx8fgRhRNWw1K1nr5o4AsBv4kwASnm/view?usp=sharing) | [**Speaker-BART**](https://pan.baidu.com/s/1LAv01Y71jcM8oBAAjm4K2A?pwd=u9d4) |
 
-## Downstream Datasets
+# Downstream Datasets
 - Downstream datasets are currently available on both [**Google Drive**](https://drive.google.com/file/d/1riZX1yraagpgLIKf5YexuGXqmIa9O0DL/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/142DGWCutzOSwzYDk9ma-qg?pwd=n8rj).
 
 |Dataset|Train|Val|Test|Domain|
@@ -53,7 +53,21 @@ for sample in data:
 | Subsequent | 40.08 | 15.41 | 37.22 |
 
 ## Inference with Our Fine-tuned SOTA Models
-- You can obtain all the inference results (i.e., full fine-tune, few-shot and zero-shot) of our models on [**Google Drive**](https://drive.google.com/file/d/1jFSp5uT1vlzcLp3wmN4y9fc19EwTh5Hy/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/1ok74xwzrUEYLwVmSx5IItQ?pwd=mic6).
+You can obtain all the inference results (i.e., full fine-tune, few-shot and zero-shot) of our models on [**Google Drive**](https://drive.google.com/file/d/1QhzdixA_HwRrCJ-IyKhHuKKLRv8Rg1pz/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/1ajEgJoyErx7bODhQBP-gsg?pwd=rdwi).
+
+You can perform inference through the following steps:
+
+**Step1**: Ensure that the required downstream datasets are stored in the `datasets` folder.
+
+**Step2**: Make sure the model you wish to test is downloaded and placed in the corresponding subfolders: `models/fine-tuned`, `models/few-shot`, `models/pre-trained`, `models/initialized`.
+
+**Step3**: Run `inference.py`. Below is an inference example:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python -u inference.py --model_path ../models/fine-tuned/MP4-DAP-TOP-SAMSum --dataset_name SAMSum --gen_use_cache --gen_max_length 100 --gen_min_length 5 --gen_beam_size 5 --gen_length_penalty 1.0 --gen_no_repeat_ngram_size 0 --infer_path ../outputs/Fine-tuned_MP4-DAP-TOP-SAMSum
+```
+
+**NOTE**: When you infer using the zero-shot setting, please ensure that the `--gen_max_length` parameter aligns with our paper.
 
 ## Fine-tuning with Our Pre-trained MP4 Models
 - We will release the relevant guideline scripts before **October 31, 2023**.
