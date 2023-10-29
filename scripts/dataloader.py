@@ -114,7 +114,6 @@ def load_train_dataset(mode, dataset_path, dataset_name, few_shot, seed, num_sam
                 dialogue = [i['cust_serv'] + '<eor>' + i['utterance'] + '<eou>' for i in sample['dialogue']]
                 summary = sample['role-rep_cust-serv_summ']
                 dataset.append({'dialogue': dialogue, 'summary': summary})
-        random.shuffle(dataset)
         return dataset
     elif mode == 'fine-tuning':
         with open(os.path.join(dataset_path, dataset_name, 'train.json'), 'r') as rf:
@@ -130,7 +129,6 @@ def load_train_dataset(mode, dataset_path, dataset_name, few_shot, seed, num_sam
         if few_shot:
             random.seed(seed)
             dataset = random.sample(dataset, num_sample)
-        random.shuffle(dataset)
         return dataset
     else:
         raise ValueError(f"Invalid mode: {mode}")
