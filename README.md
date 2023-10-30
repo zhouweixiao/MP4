@@ -35,7 +35,7 @@ for sample in data:
 | Pre-trained | [**MP4-DAP, MP4-DAP-TOP**](https://drive.google.com/file/d/14o5V-rhoXKefTrtxZVV1ej4rQtlyRF8p/view?usp=sharing) | [**MP4-DAP, MP4-DAP-TOP**](https://pan.baidu.com/s/1rTnK1Gk78uNPy9n-oyXliA?pwd=d6sf) |
 | Initialized | [**Speaker-BART**](https://drive.google.com/file/d/17sXx8fgRhRNWw1K1nr5o4AsBv4kwASnm/view?usp=sharing) | [**Speaker-BART**](https://pan.baidu.com/s/1LAv01Y71jcM8oBAAjm4K2A?pwd=u9d4) |
 
-# Downstream Datasets
+## Downstream Datasets
 - Downstream datasets are currently available on both [**Google Drive**](https://drive.google.com/file/d/1riZX1yraagpgLIKf5YexuGXqmIa9O0DL/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/142DGWCutzOSwzYDk9ma-qg?pwd=n8rj).
 
 |Dataset|Train|Val|Test|Domain|
@@ -64,7 +64,17 @@ You can perform inference through the following steps:
 **Step3**: Run `inference.py`. Below is an inference example:
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python -u inference.py --model_path ../models/fine-tuned/MP4-DAP-TOP-SAMSum --dataset_name SAMSum --gen_use_cache --gen_max_length 100 --gen_min_length 5 --gen_beam_size 5 --gen_length_penalty 1.0 --gen_no_repeat_ngram_size 0 --infer_path ../outputs/Fine-tuned_MP4-DAP-TOP-SAMSum
+CUDA_VISIBLE_DEVICES=0 \
+python -u inference.py \
+--model_path ../models/fine-tuned/MP4-DAP-TOP-SAMSum \
+--dataset_name SAMSum \
+--gen_use_cache \
+--gen_max_length 100 \
+--gen_min_length 5 \
+--gen_beam_size 5 \
+--gen_length_penalty 1.0 \
+--gen_no_repeat_ngram_size 0 \
+--infer_path ../outputs/Fine-tuned_MP4-DAP-TOP-SAMSum
 ```
 
 **NOTE**: When you infer using the zero-shot setting, please ensure that the `--gen_max_length` parameter aligns with our paper.
