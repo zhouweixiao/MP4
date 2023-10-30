@@ -126,7 +126,7 @@ You can perform pre-training through the following steps:
 
 **Step1**: Ensure the required pre-training datasets (i.e., **DAP_0.20**, **DAP_0.40**, or **LCM<sup>3</sup>DS.json**) are stored in the `datasets` folder.
 
-**Step2**: Make sure the initial Speaker-BART model is downloaded and placed in the `models/initialized` sub-folder.
+**Step2**: Make sure the initial **Speaker-BART** model is downloaded and placed in the `models/initialized` sub-folder.
 
 **Step3**: Run `training.py`. Below is a domain-aware pre-training example:
 
