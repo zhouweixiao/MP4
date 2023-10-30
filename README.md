@@ -121,6 +121,61 @@ python -u training.py \
 ## Pre-training with Our Speaker-BART Model
 - Domain-Aware Pre-training (DAP) is used for further understanding multi-scenario multi-domain dialogues, and its downstream tasks are suitable for dialogue-related tasks, not limited to dialogue summarization. The corpus with *20% masking ratio* can be found on [**Google Drive**](https://drive.google.com/file/d/1NrbLvIAh2Y0enIouXOGjsBsFvNDFpGYh/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/1NE1yC-ICo21YJO9k6AXJHg?pwd=mw4c), and the corpus with *40% masking ratio* can be found on [**Google Drive**](https://drive.google.com/file/d/1nxeR0nVjjqmK1u2nZByWqQDVULQpkhpZ/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/1rszc2pIs6ZjBHTtQFq9Qgg?pwd=9a5r).
 - Task-Oriented Pre-training (TOP) is for dialogue summarization tasks, and "*dialogue-summary*" parallel data can be obtained by extracting from **LCM<sup>3</sup>DS**.
-- We will release the relevant guideline scripts before **October 31, 2023**.
+
+You can perform pre-training through the following steps:
+
+**Step1**: Ensure the required pre-training datasets (i.e., **DAP_0.20**, **DAP_0.40**, or **LCM<sup>3</sup>DS.json**) are stored in the `datasets` folder.
+
+**Step2**: Make sure the initial Speaker-BART model is downloaded and placed in the `models/initialized` sub-folder.
+
+**Step3**: Run `training.py`. Below is a domain-aware pre-training example:
+
+```bash
+CUDA_VISIBLE_DEVICES=2,3,4,5,6,7,8,9 \
+python -u training.py \
+--mode pre-training-dap \
+--model_path ../models/initialized/Speaker-BART \
+--ckpt_save_path ../models/pre-trained/MP4-DAP-Ours \
+--gpus 8 \
+--use_ddp \
+--max_steps 5000 \
+--val_check_interval 0.50 \
+--num_sanity_val_steps 100 \
+--accumulate_grad_batches 1 \
+--progress_bar_refresh_rate 1 \
+--lr 3e-05 \
+--warmup_steps 500 \
+--label_smoothing 0.1 \
+--dataset_name DAP_0.20 \
+--val_dataset_name SAMSum-DIALOGSUM-TWEETSUMM \
+--max_length_src 1024 \
+--max_length_tgt 1024 \
+--batch_size 16 \
+--gen_use_cache \
+--gen_max_length 100 \
+--gen_min_length 5 \
+--gen_beam_size 5 \
+--gen_length_penalty 1.0 \
+--gen_no_repeat_ngram_size 0
+```
+
+**NOTE**: When conducting task-oriented pre-training, please ensure that the `--max_length_tgt` parameter is set to 256 or 512.
 
 ## The Function of Utils
+- `ckpt2bin.py` can convert the `.ckpt` model you've saved after training into the commonly used `.bin` model in transformers. Also, in `inference.py` and `training.py`, there's a `--resume_ckpt` parameter that can directly load the `.ckpt` model.
+- `evaluation.py` directly calculates the rouge scores between the model's prediction outputs and the ground truths.
+
+## Support
+If you have any questions, please contact [wxzhou@buaa.edu.cn](mailto:wxzhou@buaa.edu.cn) or provide feedback in the issues section.
+
+## Citation
+If you find this work useful and have used the code or data, please cite the following paper:
+```
+@article{zhou2023multi,
+  title={Multi-Stage Pre-training Enhanced by ChatGPT for Multi-Scenario Multi-Domain Dialogue Summarization},
+  author={Zhou, Weixiao and Li, Gengyao and Cheng, Xianfu and Liang, Xinnian and Zhu, Junnan and Zhai, Feifei and Li, Zhoujun},
+  journal={arXiv preprint arXiv:2310.10285},
+  url={https://arxiv.org/pdf/2310.10285.pdf}
+  year={2023}
+}
+```
