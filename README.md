@@ -80,9 +80,47 @@ python -u inference.py \
 **NOTE**: When you infer using the zero-shot setting, please ensure that the `--gen_max_length` parameter aligns with our paper.
 
 ## Fine-tuning with Our Pre-trained MP4 Models
-- We will release the relevant guideline scripts before **October 31, 2023**.
+You can fine-tune through the following steps:
+
+**Step1**: Ensure the required fine-tuning dataset is stored in the `datasets` folder.
+
+**Step2**: Ensure that the **MP4-DAP** or **MP4-DAP-TOP** pre-trained model is downloaded and placed in the `models/pre-trained` subfolder.
+
+**Step3**: Run `training.py`. Below is a fine-tuning example:
+
+```bash
+CUDA_VISIBLE_DEVICES=6,7,8,9 \
+python -u training.py \
+--mode fine-tuning \
+--model_path ../models/pre-trained/MP4-DAP-TOP \
+--ckpt_save_path ../models/fine-tuned/MP4-DAP-TOP-SAMSum-Ours \
+--gpus 4 \
+--use_ddp \
+--max_steps 1155 \
+--val_check_interval 0.50 \
+--num_sanity_val_steps 2 \
+--accumulate_grad_batches 1 \
+--progress_bar_refresh_rate 1 \
+--lr 3e-05 \
+--warmup_steps 100 \
+--label_smoothing 0.1 \
+--dataset_name Downstream_Datasets/SAMSum \
+--max_length_src 1024 \
+--max_length_tgt 256 \
+--batch_size 16 \
+--gen_use_cache \
+--gen_max_length 100 \
+--gen_min_length 5 \
+--gen_beam_size 5 \
+--gen_length_penalty 1.0 \
+--gen_no_repeat_ngram_size 0
+```
+
+**NOTE**: If you wish to conduct **few-shot training**, please ensure that the `--few_shot`, `--seed`, and `--num_sample` parameters are set.
 
 ## Pre-training with Our Speaker-BART Model
 - Domain-Aware Pre-training (DAP) is used for further understanding multi-scenario multi-domain dialogues, and its downstream tasks are suitable for dialogue-related tasks, not limited to dialogue summarization. The corpus with *20% masking ratio* can be found on [**Google Drive**](https://drive.google.com/file/d/1NrbLvIAh2Y0enIouXOGjsBsFvNDFpGYh/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/1NE1yC-ICo21YJO9k6AXJHg?pwd=mw4c), and the corpus with *40% masking ratio* can be found on [**Google Drive**](https://drive.google.com/file/d/1nxeR0nVjjqmK1u2nZByWqQDVULQpkhpZ/view?usp=sharing) and [**Baidu Netdisk**](https://pan.baidu.com/s/1rszc2pIs6ZjBHTtQFq9Qgg?pwd=9a5r).
 - Task-Oriented Pre-training (TOP) is for dialogue summarization tasks, and "*dialogue-summary*" parallel data can be obtained by extracting from **LCM<sup>3</sup>DS**.
 - We will release the relevant guideline scripts before **October 31, 2023**.
+
+## The Function of Utils
